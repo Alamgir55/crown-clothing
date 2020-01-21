@@ -69,9 +69,19 @@ export const covertCollectionsSnapshotToMap = collections => {
     }, {});
 }
 
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+
+export const getCurrentUser = userAuth => {
+  return new Promise((resolve, reject) => {
+    const unsubcribe = auth.onAuthStateChanged(userAuth => {
+        unsubcribe();
+        resolve(userAuth);
+    }, reject);
+  })
+}
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
